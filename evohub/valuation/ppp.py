@@ -9,6 +9,7 @@ class PurchasingPowerParity(object):
 
     def __init__(self):
         print('Saskia')
+        print('Sandro')
 
     def run(self):
         data = self.load_data()
