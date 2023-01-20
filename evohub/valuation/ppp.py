@@ -5,7 +5,10 @@ from evohub.utils import _BaseIndicator
 # Use USDCHF - PPP Rate = Result * -1
 
 
-class PurchasingPowerParity(_BaseIndicator):
+class PurchasingPowerParity(object):
+
+    def __init__(self):
+        print('Saskia')
 
     def run(self):
         data = self.load_data()
