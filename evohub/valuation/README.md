@@ -93,7 +93,6 @@ of how the value of a currency changes against a basket of other currencies.
 - Type: USD is taken as base currency and is therefore always "fairly valued" with a score of 1
 - Base: 2010 = 100
 - Source: REER from BIS
-- Valuation range: Valuation ranges of +/- 20% are considered as significant, +/- 10% are in "fair"
 - Source: Bloomberg
 - Indices: BISNUSR Index (USD), BISNCHR Index (CHF), BISNEUR Index (EUR)
 
