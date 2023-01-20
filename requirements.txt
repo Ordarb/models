@@ -1,6 +1,6 @@
 abc
 pandas
-sklearn
+scikit-learn
 numpy
 matplotlib
 seaborn

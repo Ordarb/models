@@ -7,7 +7,6 @@ import matplotlib.pyplot as plt
 import matplotlib.ticker
 import seaborn as sns
 from matplotlib.colors import ListedColormap
-from matplotlib.gridspec import GridSpec
 
 FIG_HEIGHT = 1000
 FIG_WIDTH = 3000
