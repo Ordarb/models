@@ -8,13 +8,11 @@ from evohub.utils import _BaseIndicator
 class PurchasingPowerParity(object):
 
     def __init__(self):
-        print('Saskia')
-        print('Sandro')
-        print('Marco')
+        pass
 
     def run(self):
         data = self.load_data()
-        eur = ['EURUSD Cunncy', 'BPPPCPEU Index',]
+        eur = ['EURUSD Cunncy', 'BPPPCPEU Index']
         chf = ['USDCHF Curncy', 'BPPPCPCH Index']
 
         ppp_eur = data[eur[0]- data[eur[1]]]
