@@ -10,10 +10,8 @@ class PurchasingPowerParity(object):
 
         data = self.load_data()
 
-        # matching of the currency and the ppp-index
-
-        matching = {'EUR': {'cross': 'EURUSD Curncy', 'ppp': 'BPPPCPEU Index', 'invert': False},
-                    'CHF': {'cross': 'USDCHF Curncy', 'ppp': 'BPPPCPCH Index', 'invert': True}}
+        matching = {'EUR': {'cross': 'EURUSD Curncy', 'ppp': 'BPPPCPEU Index'},
+                    'CHF': {'cross': 'USDCHF Curncy', 'ppp': 'BPPPCPCH Index'}}
 
         output = []
         for key in matching:
@@ -35,7 +33,6 @@ class PurchasingPowerParity(object):
             output.append(pd.DataFrame({'{}_cross'.format(key): cross,
                                         '{}_ppp'.format(key): ppp,
                                         '{}_value'.format(key): value}))
-
         return pd.concat(output, axis=1)
 
     def viz_check(self, key, cross, ppp, value):
