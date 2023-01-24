@@ -11,7 +11,8 @@ from matplotlib.colors import ListedColormap
 FIG_HEIGHT = 1000
 FIG_WIDTH = 3000
 TIMEZONE = 'Europe/Zurich'
-
+PATH2SASKIA = r'C:\Users\senns\Documents\Aionite Capital\valuation.xlsx'
+PATH2SANDRO = r'D:\OneDrive\Aionite\Advisory\2212 IST FX\valuation.xlsx'
 
 class _BaseIndicator(object):
     """base indicator class to calc some data and save it to ArcticCloud"""
