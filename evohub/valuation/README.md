@@ -112,17 +112,15 @@ Reserve in the United States) should adjust its benchmark interest rate in respo
 economic activity. The rule was first proposed by economist John Taylor in 1993 and has since been widely adopted by 
 central banks around the world.
 
-The Taylor rule is based on the idea that the central bank should adjust interest rates to stabilize the economy by 
-keeping inflation near a target level and keeping output near its potential level. The rule is typically specified 
-mathematically as:
+We follow the approach as proposed by Bullard (2022). He proposes to that the real rate (r*) as -0.5%, taking the more 
+conservative Dallas Fed trimmed inflation measure and a reaction factor of 1.25. The reaction towards the output gap 
+is depending on the sign of the output gap (min from output gap or zero). Interestingly, Bullard proposes to compare
+the taylor rule output with the 2y interest rate that better includes the forward guidelines of the committee.
 ```math 
 i = r* + π* + (π - π*) + (y - y*)
+i = -0.5% + 2% + (4.6%-2%) + 0 = 4.1%
 ```
 
-The rule states that the central bank should adjust the interest rate based on the deviation of inflation and output 
-from their respective target levels. If inflation is above target, the central bank should raise interest rates, if 
-it is below target, it should lower interest rates. Similarly, if output is above its potential level, the central 
-bank should raise interest rates, if it is below, it should lower interest rates.
 
 ## Credit Markets
 
