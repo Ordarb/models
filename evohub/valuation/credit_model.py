@@ -1,59 +1,65 @@
 import pandas as pd
 import numpy as np
 from sklearn.linear_model import LinearRegression
-from evohub.utils import _BaseIndicator
 import matplotlib.pyplot as plt
 import statsmodels.api as sm
 from sklearn.preprocessing import MinMaxScaler
+from evohub.utils import ChartPresets
 
 PATH2DATA = r'D:\OneDrive\Aionite\Advisory\2212 IST FX\valuation.xlsx'
-# Use EURUSD - PPP Rate = Result
-# Use USDCHF - PPP Rate = Result * -1
 
 
 class CreditValuation(object):
 
-    def run(self):
-        data = self.load_data()
+    def run(self, window=30):
+        data_raw = self.load_data()                         # load data for excel sheets
+        data = pd.DataFrame({'ret': data_raw.iloc[:, 0],
+                             'lvl': data_raw.iloc[:, 1]/10000.,
+                             'steep': (data_raw.iloc[:, 1] - data_raw.iloc[:, 2])/10000.,
+                             'vol': (data_raw.iloc[:, 1]/10000.).rolling(30).std()*np.sqrt(250)})
 
+        # return preparation
+        data.ret = np.log(data.ret/data.ret.shift(1))       # calc log returns of cdx tr index
+        data['fwd_return'] = data.ret.rolling(window=window, min_periods=int(window/2)).sum()  # calc fwd looking window
+        data.fwd_return = data.ret.shift(-window)  # shift return for prediction
 
-        window = 60
-        y = pd.DataFrame({'ret': data.iloc[:, 0]})      # return data to predict
-        y = np.log(y/y.shift(1))                        # calc daily log returns
-        y = y.rolling(window=window, min_periods=int(window/2)).sum()    # calc ret over a period
-        y = y.shift(-window)                             # shift return for prediction
+        # clean entire dataframe
+        data.dropna(inplace=True)
 
-        x = pd.DataFrame({'lvl': data.iloc[:, 1], 'steep': (data.iloc[:, 1] - data.iloc[:, 2])})
-        x = x / 10000.
-
-        df = pd.concat([y, x], axis=1)
-        df.dropna(inplace=True)
-
-        y = df.iloc[:, 0]
-        x = df.iloc[:, 1:]
+        # prepare model inputs
+        y = data.fwd_return
+        x = data[['lvl', 'steep']]
         x = sm.add_constant(x)
 
-
+        # train the model
         results = sm.OLS(y, x).fit()
         print(results.summary())
-        y_hat = results.fittedvalues
-        y.plot(color='lightgrey')
-        y_hat.plot(color='black')
+        pred = results.fittedvalues
+        zscore = self.transform2signal(pred)
+
+        chrt = ChartPresets()
+        _, ax = chrt.get_chart(2)
+        zscore.plot(ax=ax)
+        ax2 = ax.twinx()
+        data.ret.cumsum().plot(ax=ax2)
         plt.show()
 
-        score = y_hat / np.std(y_hat)
-
-        scaler= MinMaxScaler(feature_range=(-1,1))
-        scaler.fit(results.fittedvalues.values)
-        scaler.transform(results.fittedvalues.values)
-
-        model = LinearRegression(fit_intercept=False)
-        model.fit(df.iloc[:, 1:], df.iloc[:, 0])
-
-        output = pd.DataFrame({'y': df.iloc[:, 0], 'y_hat': model.predict(df.iloc[:, 1])})
-        output.plot()
+        chrt = ChartPresets()
+        _, ax = chrt.get_chart(2)
+        data.ret.shift(-1)[zscore>=-0.50].cumsum().plot()
         plt.show()
 
+        chrt = ChartPresets()
+        _, ax = chrt.get_chart(2)
+        data.ret.shift(-1)[zscore<-0.50].cumsum().plot()
+        plt.show()
+
+
+    def transform2signal(self, data):
+        """floors all indicators, so it is not perfectly zero, and looks nicer"""
+        zscore = (data-data.mean()) / np.std(data)
+        zscore_trimmed = np.clip(zscore, a_max=2, a_min=-2)
+        return zscore_trimmed
 
 
     def load_data(self):
@@ -64,7 +70,8 @@ class CreditValuation(object):
         data.dropna(inplace=True)
         return data
 
+
 if __name__ == "__main__":
 
     obj = CreditValuation()
-    obj.run()
+    obj.run(window=60)
