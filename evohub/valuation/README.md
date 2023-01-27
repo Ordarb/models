@@ -96,13 +96,6 @@ of how the value of a currency changes against a basket of other currencies.
 - Source: Bloomberg
 - Indices: BISNUSR Index (USD), BISNCHR Index (CHF), BISNEUR Index (EUR)
 
-### Yield-Spread Momentum (IR Spread Momentum)
-
-A significant part of the relative value of currency markets comes from the interest rate differential. Financial
-have been shown to only slowly price in new information (momentum theory). The same is true with fast relative yield 
-changes. Measuring the momentum on the 2y interest rate differential can therefore be seen as an indicator of valuation
-of a fx cross.
-
 
 ## Interest Rate Markets
 
